@@ -18,6 +18,9 @@ let openCageKey = "76ccf41f859d4c3ba1e1bebd2d7d68c6";
 
 // })
 
+
+
+
 $(".btn").on("click", function() {
   const input = $("#city").val();
 
@@ -39,9 +42,30 @@ $(".btn").on("click", function() {
         const windSpeed = response.data[0].wind_spd
         const uV = response.data[0].uv;
         const iconCode = response.data[0].weather.icon
-        //console.log(temp, humidity, windSpeed, uV, iconCode)
-        
 
+        //console.log(temp, humidity, windSpeed, uV, iconCode)
+
+        clear();
+        $(".current-weather").append(`
+        <h2 class=dateLable>${date}</h2>
+        <img class = iconWeather src="assets/icons/${iconCode}.png" height="auto" width="25%">
+        <h6 class=weatherLable>
+        Temperature: ${temp}
+        <br>
+        Humidity: ${humidity}
+        <br>
+        Wind Speed: ${windSpeed}
+        <br>
+        UV Index: ${uV}
+        </h6>
+        `)
     });
   });
 });
+
+
+
+function clear() {
+    $(".dateLable").empty()
+    $(".weatherLable").empty()
+}
