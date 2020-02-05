@@ -18,9 +18,6 @@ let openCageKey = "76ccf41f859d4c3ba1e1bebd2d7d68c6";
 
 // })
 
-
-
-
 $(".btn").on("click", function() {
   const input = $("#city").val();
 
@@ -35,37 +32,79 @@ $(".btn").on("click", function() {
       url: `https://api.weatherbit.io/v2.0/current?city=${city},${state}&key=18d2f52e38b340edbcffc0bc40a9555e&units=I`,
       method: "GET"
     }).then(function(response) {
-        console.log(response)
-        const date = response.data[0].datetime
-        const temp = response.data[0].temp
-        const humidity = response.data[0].rh
-        const windSpeed = response.data[0].wind_spd
-        const uV = response.data[0].uv;
-        const iconCode = response.data[0].weather.icon
+      console.log(response);
+      //const date = response.data[0].datetime;
+      const temp = response.data[0].temp;
+      const humidity = response.data[0].rh;
+      const windSpeed = response.data[0].wind_spd;
+      const uV = response.data[0].uv;
+      const iconCode = response.data[0].weather.icon;
 
-        //console.log(temp, humidity, windSpeed, uV, iconCode)
 
-        clear();
-        $(".current-weather").append(`
-        <h2 class=dateLable>${date}</h2>
+      clear();
+      $(".current-weather").append(`
+
         <img class = iconWeather src="assets/icons/${iconCode}.png" height="auto" width="25%">
         <h6 class=weatherLable>
-        Temperature: ${temp}
+        Temperature: ${temp} °F
         <br>
         Humidity: ${humidity}
         <br>
         Wind Speed: ${windSpeed}
         <br>
-        UV Index: ${uV}
+        UV Index: <span class="uVSpan"> ${uV} </span>
         </h6>
-        `)
+        `);
+
+      if (uV < 3) {
+        $(".uVSpan").addClass(`favorable`);
+      } else if (uV > 2 && uV < 8) {
+        $(".uVSpan").addClass(`moderate`);
+      } else {
+        $(".uVSpan").addClass(`severe`);
+      }
+
+      $.ajax({
+        url: `https://api.weatherbit.io/v2.0/forecast/dailycurrent?city=${city},${state}&key=18d2f52e38b340edbcffc0bc40a9555e&units=I&days=6`,
+        method: "GET"
+      }).then(function(response) {
+        console.log(response);
+        const date = response.data[0].datetime;
+
+        $(".current-weather").prepend(`
+        <h2 class=dateLable> ${city}: (${date})</h2>
+        `);
+
+        for (let i = 1; i < 6; i++) {
+          const datei = response.data[i].datetime;
+          const tempi = response.data[i].temp;
+          const humidityi = response.data[i].rh;
+          const windSpeedi = response.data[i].wind_spd;
+          const uVi = response.data[i].uv;
+          const iconCodei = response.data[i].weather.icon;
+
+          $(".five-day").append(`
+            <div class=card col">
+            <h3>(${datei})</h3>
+            <h6>
+            <img class = iconWeather src="assets/icons/${iconCodei}.png" height="auto" width="15%">
+            Temperature: ${tempi} °F
+            <br>
+            Humidity: ${humidityi}
+            <br>
+            Wind Speed: ${windSpeedi}
+            <br>
+            UV Index: ${uVi}
+            </h6>
+            </div>`);
+        }
+      });
     });
   });
 });
 
-
-
 function clear() {
-    $(".dateLable").empty()
-    $(".weatherLable").empty()
+  $(".dateLable").empty();
+  $(".weatherLable").empty();
+  $(".iconWeather").remove();
 }
