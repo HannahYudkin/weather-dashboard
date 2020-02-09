@@ -11,7 +11,6 @@ if (localStorage.getItem("cityArray") === null) {
   localStorage.setItem("cityArray", JSON.stringify(cityArray));
 } else {
   cityList = JSON.parse(localStorage.getItem("cityArray"));
-  console.log(cityList);
   appendList();
 }
 function appendList() {
@@ -40,7 +39,6 @@ function forcast(city, state) {
     url: `https://api.weatherbit.io/v2.0/current?city=${city},${state}&key=18d2f52e38b340edbcffc0bc40a9555e&units=I`,
     method: "GET"
   }).then(function(response) {
-    console.log(response);
     const temp = response.data[0].temp;
     const humidity = response.data[0].rh;
     const windSpeed = response.data[0].wind_spd;
@@ -78,7 +76,6 @@ function fiveDayForecast(city, state) {
     url: `https://api.weatherbit.io/v2.0/forecast/dailycurrent?city=${city},${state}&key=18d2f52e38b340edbcffc0bc40a9555e&units=I&days=6`,
     method: "GET"
   }).then(function(response) {
-    console.log(response);
     const date = response.data[0].datetime;
 
     $(".current-weather").prepend(`
