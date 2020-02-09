@@ -11,7 +11,7 @@ When they view future weather conditions for that city,they are presented with a
 
 When they click on a city in the search history they are again presented with current and future conditions for that city.
 
-![Image 1](https://github.com/HannahYudkin/weather-dashboard/blob/master/assets/weather-dashboard.png)
+![Image 1](https://github.com/HannahYudkin/weather-dashboard/blob/master/assets/icons/weather-deashboard.png)
 
 ## Access Here
 
